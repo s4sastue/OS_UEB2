@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: server.dockerfile
+    networks:
+      - zmq_network
+    ports:
+      - "4242:4242"
+
+  client:
+    build:
+      context: .
+      dockerfile: client.dockerfile
+    networks:
+      - zmq_network
+    depends_on:
+      - server
+    volumes:
+      - ./:/res
+
+networks:
+  zmq_network:
+    driver: bridge
